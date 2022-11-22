@@ -1,0 +1,360 @@
+---
+title: "Bikeshare case study"
+author: "Bastian Parra"
+date: "2022-10-15"
+output: html_document
+---
+
+
+<img src="https://miro.medium.com/max/1100/1*dKXQMU1QAjgh4gQeIuMCMQ.jpeg" width="250" height="200">
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bikeshare company case study.
+
+
+
+-The data has been made available by Motivate International Inc. under [this](https://ride.divvybikes.com/data-license-agreement) license. 12 months of data were obtained from [here](https://divvy-tripdata.s3.amazonaws.com/index.html).
+
+
+
+>Load files using Vroom library:
+
+
+```{r Load Vroom, eval=FALSE, warning=FALSE, message=FALSE}
+
+library(vroom)
+
+```
+
+
+>Import all csv files using vroom.
+
+
+Files were stored locally after checking them with Excel.
+
+```{r Loading individual files, eval=FALSE, warning=FALSE, message=FALSE}
+jul_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202107-divvy-tripdata-2.csv")
+aug_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202108-divvy-tripdata-2.csv")
+sep_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202109-divvy-tripdata-2.csv")
+
+
+oct_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202110-divvy-tripdata-2.csv")
+nov_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202111-divvy-tripdata-2.csv")
+dec_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202112-divvy-tripdata-2.csv")
+
+jan_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202201-divvy-tripdata-2.csv")
+feb_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202202-divvy-tripdata-2.csv")
+mar_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202203-divvy-tripdata-2.csv")
+
+apr_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202204-divvy-tripdata-2.csv")
+may_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202205-divvy-tripdata-2.csv")
+jun_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202206-divvy-tripdata-2.csv")
+```
+
+
+#Binding quarters of data with ride lengths and day.  
+
+```{r Binding files, eval=FALSE, warning=FALSE, message=FALSE}
+Q3_2021 <- rbind(jul_2021, aug_2021, sep_2021)
+Q4_2021 <- rbind(oct_2021, nov_2021, dec_2021)
+Q1_2022 <- rbind(jan_2022, feb_2022, mar_2022)
+Q2_2022 <- rbind(apr_2022, may_2022, jun_2022) 
+```
+
+#Remove individual files to save memory.
+```{r Remove individual files,eval=FALSE, warning=FALSE, message=FALSE}
+rm(jan_2022, feb_2022, mar_2022, apr_2022, may_2022, june_2022, jul_2021, aug_2021, sep_2021, oct_2021, nov_2021, dec_2021)
+
+```
+
+
+Renaming columns:
+
+```{r Rename columns, eval=FALSE, warning=FALSE, message=FALSE}
+
+library(dplyr)
+
+
+Q3_2021 <- rename(Q3_2021
+                  ,trip_id = ride_id
+                  ,bikeid = rideable_type 
+                  ,start_time = started_at  
+                  ,end_time = ended_at  
+                  ,from_station_name = start_station_name 
+                  ,from_station_id = start_station_id 
+                  ,to_station_name = end_station_name 
+                  ,to_station_id = end_station_id 
+                  ,usertype = member_casual)
+
+Q4_2021 <- rename(Q4_2021
+                  ,trip_id = ride_id
+                  ,bikeid = rideable_type 
+                  ,start_time = started_at  
+                  ,end_time = ended_at  
+                  ,from_station_name = start_station_name 
+                  ,from_station_id = start_station_id 
+                  ,to_station_name = end_station_name 
+                  ,to_station_id = end_station_id 
+                  ,usertype = member_casual)                    
+Q1_2022 <- rename(Q1_2022
+                  ,trip_id = ride_id
+                  ,bikeid = rideable_type 
+                  ,start_time = started_at  
+                  ,end_time = ended_at  
+                  ,from_station_name = start_station_name 
+                  ,from_station_id = start_station_id 
+                  ,to_station_name = end_station_name 
+                  ,to_station_id = end_station_id 
+                  ,usertype = member_casual)
+Q2_2022 <- rename(Q2_2022
+                  ,trip_id = ride_id
+                  ,bikeid = rideable_type 
+                  ,start_time = started_at  
+                  ,end_time = ended_at  
+                  ,from_station_name = start_station_name 
+                  ,from_station_id = start_station_id 
+                  ,to_station_name = end_station_name 
+                  ,to_station_id = end_station_id 
+                  ,usertype = member_casual)
+
+```
+
+
+
+```{r Inspect the dataframes,eval=FALSE, warning=FALSE, message=FALSE}
+# Inspect the dataframes and look for incongruencies.
+str(Q3_2021)
+str(Q4_2021)
+str(Q1_2022)
+str(Q2_2022)
+```
+
+Stack all quarters into a single dataset.
+```{r Stack quarterly data,eval=FALSE, warning=FALSE, message=FALSE}
+
+all_trips <- rbind(Q3_2021, Q4_2021, Q1_2022, Q2_2022) 
+
+```
+
+Checking size of all_trips.
+
+```{r See file size, eval=FALSE, warning=FALSE, message=FALSE}
+
+format(object.size(all_trips), units = "auto")
+
+```
+
+Export all data to keep as backup.
+
+```{r Save all data as backup, eval=FALSE, warning=FALSE, message=FALSE}
+
+write.csv(all_trips,"C:/Users/agnen/Documents/TestR/case study/all_trips.csv", row.names=FALSE)
+
+```
+
+Remove quarters to save memory.
+```{r Remove quarterly data, eval=FALSE, warning=FALSE, message=FALSE}
+
+rm(Q1_2022, Q2_2022, Q3_2021, Q4_2021)
+```
+
+Remove geo-location data, this is not needed for this part of the analysis.
+```{r Remove latitude and longitude, eval=FALSE, warning=FALSE, message=FALSE}
+
+all_trips <- subset(all_trips, select = -c(start_lat, start_lng, end_lat, end_lng))
+```
+
+>Extracting data from all_trips.
+
+List of column names
+```{r Column names, eval=FALSE, warning=FALSE, message=FALSE}
+colnames(all_trips)
+```
+
+How many rows are in data frame?
+```{r Row count,eval=FALSE, warning=FALSE, message=FALSE}
+nrow(all_trips) 
+```
+
+Dimensions of the data frame?
+```{r Dimensions, eval=FALSE, warning=FALSE, message=FALSE}
+dim(all_trips)
+```
+See the first 6 rows of data frame
+```{r Head, eval=FALSE, warning=FALSE, message=FALSE}
+head(all_trips)  
+```
+Statistical summary of data. Mainly for numerics.
+```{r Data summary, eval=FALSE, warning=FALSE, message=FALSE}
+summary(all_trips)  
+```
+
+
+
+
+```{r Load lubridate, eval=FALSE, message=FALSE, warning=FALSE}
+
+library(lubridate)
+
+```
+
+Add a "ride_length" calculation to all_trips (in seconds)
+
+```{r calculate time difference, eval=FALSE, warning=FALSE, message=FALSE}
+all_trips$ride_length <- difftime(all_trips$end_time,all_trips$start_time)
+```
+
+Convert seconds to H:M:S
+
+```{r, convert to a better format,eval=FALSE, warning=FALSE, message=FALSE}
+all_trips$ride_length <- seconds_to_period(all_trips$ride_length)
+```
+
+Convert "ride_length" from Factor to numeric so we can run calculations on the data 
+```{r Convert ride length, eval=FALSE, warning=FALSE, message=FALSE}
+is.factor(all_trips$ride_length)
+all_trips$ride_length <- as.character(as.numeric(all_trips$ride_length))
+```
+
+
+>Remove bad data.
+
+
+The dataframe includes a few hundred entries when bikes were taken out of docks and checked for quality by Divvy.
+#Export the file to keep it as a modified backup.
+
+```{r Save modified data, eval=FALSE, warning=FALSE, message=FALSE}
+write.csv(all_trips,"C:/Users/agnen/Documents/TestR/case study/all_trips_modified.csv", row.names=FALSE)
+```
+
+>Based on the ride length, we disregard those rides with length zero and negative.
+
+```{r, filter out negative and zeroes, eval=FALSE, warning=FALSE, message=FALSE}
+all_trips <- filter(all_trips, all_trips$ride_length >=0)#this worked
+```
+
+>Descriptive analysis on ride_length_seconds (all figures in seconds)
+
+```{r Descriptive analysis, eval=FALSE, warning=FALSE, message=FALSE}
+
+mean(all_trips$ride_length_seconds) #straight average (total ride length / rides)
+median(all_trips$ride_length_seconds) #midpoint number in the ascending array of ride lengths
+max(all_trips$ride_length_seconds) #longest ride
+min(all_trips$ride_length_seconds) #shortest ride
+```
+
+
+#Compare members and casual users
+```{r Comparing members and casual riders, eval=FALSE, warning=FALSE, message=FALSE}
+
+aggregate(all_trips$ride_length_seconds ~ all_trips$usertype, FUN = mean)
+aggregate(all_trips$ride_length_seconds ~ all_trips$usertype, FUN = median)
+aggregate(all_trips$ride_length_seconds ~ all_trips$usertype, FUN = max)
+aggregate(all_trips$ride_length_seconds ~ all_trips$usertype, FUN = min)
+```
+
+Percentage of members/casual riders.
+```{r Percentage of users per type., eval=FALSE, warning=FALSE, message=FALSE}
+
+library(data.table)
+
+setDT(all_trips)[, 100* .N / nrow(all_trips), by = usertype]
+```
+
+
+>See the average ride time by each day for members vs casual users
+
+```{r Average rides per usertype, eval=FALSE, warning=FALSE, message=FALSE}
+
+aggregate(all_trips$ride_length ~ all_trips$usertype + all_trips$day_of_week, FUN = mean)
+
+aggregate(all_trips$ride_length_seconds ~ all_trips$usertype + all_trips$day, FUN = mean)
+```
+
+Ordering days of the week.
+
+```{r Ordering days,eval=FALSE, warning=FALSE, message=FALSE}
+
+all_trips$day_of_week <- ordered(all_trips$day_of_week, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+
+```
+
+
+Calculating the average ride time per day by user types.
+
+```{r average ride time per day per user type, eval=FALSE, warning=FALSE, message=FALSE}
+
+aggregate(all_trips$ride_length ~ all_trips$usertype + all_trips$day_of_week, FUN = mean)
+
+```
+
+Analyze ridership data by type and weekday.
+
+```{r Analyze ridership data by type and weekday., eval=FALSE, warning=FALSE, message=FALSE}
+
+all_trips %>% 
+  mutate(weekday = wday(start_time, label = TRUE)) %>%  #creates weekday field using wday()
+  group_by(usertype, weekday) %>%  #groups by usertype and weekday
+  summarise(number_of_rides = n()							#calculates the number of rides and average duration 
+            ,average_duration = mean(ride_length)) %>% 		# calculates the average duration
+  arrange(usertype, weekday)								# sorts
+
+#visualize the number of rides by rider type
+all_trips %>% 
+  mutate(weekday = wday(start_time, label = TRUE)) %>% 
+  group_by(usertype, weekday) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_length)) %>% 
+  arrange(usertype, weekday)  %>% 
+  ggplot(aes(x = weekday, y = number_of_rides, fill = usertype)) +
+  geom_col(position = "dodge")
+
+```
+
+Visualization for average duration.
+
+```{r Visualization for average duration., eval=FALSE, warning=FALSE, message=FALSE}
+
+all_trips %>% 
+  mutate(weekday = wday(start_time, label = TRUE)) %>% 
+  group_by(usertype, weekday) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_length)) %>% 
+  arrange(usertype, weekday)  %>% 
+  ggplot(aes(x = weekday, y = average_duration, fill = usertype)) +
+  geom_col(position = "dodge") + facet_grid(all_trips$month)
+
+```
+
+
+Plot for usage throughout different months.
+```{r Plot for usage throughout different months, eval=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+ggplot(data=all_trips, aes(x=day_of_week, y=average_duration)) 
++ fill=all_trips$usertype + geom_line() + facet_grid(all_trips$month)
++ expand_limits (y=0)
+
+```
+
+Create a csv file with ride length.
+```{r Create a csv file with ride length., eval=FALSE, warning=FALSE, message=FALSE}
+
+counts <- aggregate(all_trips$ride_length ~ all_trips$usertype + all_trips$day_of_week, FUN = mean)
+
+write.csv(counts, file = '~/TestR/case study/avg_ride_length.csv')
+
+```
+
+
+
+#
+library(tidyverse)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(data.table)
