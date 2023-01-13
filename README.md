@@ -1,6 +1,6 @@
 ---
-title: "Car Diagnosis"
-author: "Bastian"
+Title: "Car Diagnosis"
+Author: "Bastian"
 date: "2023-01-13"
 output: html_document
 ---
