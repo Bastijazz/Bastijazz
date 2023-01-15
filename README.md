@@ -1,6 +1,6 @@
 ---
-Title: "Car Diagnosis"
-Author: "Bastian"
+title: "Car Diagnosis"
+author: "Bastian"
 date: "2023-01-13"
 output: html_document
 ---
@@ -8,7 +8,7 @@ output: html_document
 
 ## Diagnosting my car, using data.
 
-I have a 2013 Mazda 6, which I got second hand. The car had a number of problems which have been sorted out but it doesn't prevent me from new ones.
+I have a 2013 Mazda 6 diesel, which I got second hand. The car had a number of problems which have been sorted out but a new problem has appeared.
 
 ##The problem: Power loss when the car is warmed up.
 
@@ -22,9 +22,9 @@ So, I decided to use data to perform a diagnosis and see if the car's computer c
 
 ## The method.
 
-For around 30 years, OBD II has been the standard for car diagnostics, a cable is connected to the OBD port and a computer retrieves live and historic data (in some cases).
+For around 30 years, OBD II has been the standard for car diagnostics, a cable is connected to the OBD port and a computer retrieves live and historical data (in some cases).
 
-In my case, I have an OBD bluetooth device which pairs to my phone, so I can see live data and if needed, I can store it and send the recorded data via email.
+In my case, I have an OBD Bluetooth device which pairs to my phone, so I can see live data and if needed, I can store it and send the recorded data via email.
 
 I will be using R code on Rstudio to perform the analysis and visualize the data.
 
@@ -52,8 +52,8 @@ Let's visualize
 I have no official numbers on temperature limits set by the car's computer, but there is an error code which tells us that a certain limit has been reached.
 
 To put this into a more human equivalent, let's think of fever.
-  - Normal body temperature should be around 36 to 36,8 degrees celsius.
-  - Fever starts at around 38 degrees celsius.
+  - Normal body temperature should be around 36 to 36,8 degrees Celsius.
+  - Fever starts at around 38 degrees Celsius.
   - Between 37 to 38 degrees, is high temperature.
 
 
@@ -68,14 +68,12 @@ The car can be seen in a similar manner:
 I assume the car measures high temperature when it reaches 100 degrees, so it gives us engine code ()
 
 We can see there is a peak at 103 degrees, and this would match the behavior of the car, limiting the power.
-By checking the correlation between coolant and oil temperatures, I can determine if one is affected by the other.
-
 
 
 ##Are coolant temperature and oil temperature related?
 
 I would like to see if there is a correlation between engine coolant and engine oil temperatures.
-Logic tells us there should be as both run through the engine, but I would like to find how strongly connected they are.
+Logic tells us there should be a certain correlation, as both run through the engine, but I would like to find how strongly connected they are.
 
 ``` r 
 #correlation coolant vs oil temp
@@ -89,8 +87,6 @@ cor(oil_temp_vs_coolant)
 cor.test(oil_temp_vs_coolant$Mazdata_13_08_2022..EOT..C.., oil_temp_vs_coolant$Mazdata_13_08_2022..ECT1..C..)
 
 ```
-
-
 
 A correlation index of 0.676188 tells us that there is some positive correlation, however this is not a direct correlation.
 In any case, this is something to consider if I want to make some changes.
@@ -114,7 +110,7 @@ The car has been behaving like this for some time, and I need to find the actors
  -Oil could be contaminated with diesel.
  -Oil change could past due date. It needs to be changed every certain amount of kilometers or time.
  -The coolant used could be wrong, modern cars are sensitive to coolant types.
- -Radiator is contaminated, if the coolant has drinking water, corrosion is created and the tubes can get clogged.
+ -Radiator is contaminated, if the coolant has tap water instead of destilled water, corrosion is created and the tubes can get clogged.
  -Radiator fans are not working.
 
 ###Disregarded potential problems 
@@ -132,12 +128,12 @@ When working on a car, my approach is to start with the easiest and cheapest pot
  
 ##Outcome and analysis.
 
- -The coolant on the engine was the wrong type, so after flushing the system, the correct one was added, mixed with distilled water.
+ -The coolant on the engine was the wrong type (red instead of green), so after flushing the system, the correct one was added, mixed with distilled water.
  -Oil was changed to specific Mazda oil and filter.
  
 After performing an initial test run to gather data, I saved it and run through the same process to visualize the status of the car.
 
-
+Graph goes here:
 
 -After running the car for a few weeks and a 5 day road trip, the car behaves as it should, no power loss and no signs of high temperature.
 
@@ -145,7 +141,7 @@ After performing an initial test run to gather data, I saved it and run through 
 
 ##Conclusion
 
- -Oil change interval and oil density according to specifications are crucial. When the car was bought, the oil it had was optimal for the climate of northern Europe, where winters are harsher, so a different viscosity is needed.
+ -Oil change interval and oil density according to specifications are crucial, especially on modern engines. 
  
  -Flushing the coolant and radiator helps in two ways:
   -The minerals and detergents protect the engine block from corrosion.
