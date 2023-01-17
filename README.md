@@ -32,7 +32,8 @@ After warming up the car for about 5 minutes, I started to record the data which
 
 
 During the day, the maximum temperature was 25 degrees Celsius, which is something we should consider when measuring a potential engine overheat situation.
-<img src="temperature180822.png" >
+
+<img src="temperature130822.png" >
 
 Familiarizing with the data.
 
