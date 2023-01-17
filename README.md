@@ -4,16 +4,16 @@ author: "Bastian"
 date: "2023-01-13"
 output: html_document
 ---
-# Data visualizations, analysis and more.
 
 ## Diagnosting my car, using data.
 
 I have a 2013 Mazda 6 diesel, which I got second hand. The car had a number of problems which have been sorted out but a new problem has appeared.
 
-##The problem: Power loss when the car is warmed up.
+The problem: Power loss when the car is warmed up.
 
 Normally, any car has the same amount of power when on demand if the engine is healthy.
 However, my car started to lose power after driving for around 10 minutes, it still runs but the throttle response is much slower and the car seems to be saving power.
+
 This is annoying, but most of all, it shows that something is clearly wrong.
 After consulting with a mechanic, he mentioned that the engine could be overheating.
 
