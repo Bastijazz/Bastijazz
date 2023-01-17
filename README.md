@@ -1,19 +1,17 @@
 ---
-title: "Car Diagnosis"
-author: "Bastian"
-date: "2023-01-13"
-output: html_document
+Title: Car Diagnosis
+Author: Bastian
+Date: "2023-01-13"
 ---
 
 ## Diagnosting my car, using data.
 
 I have a 2013 Mazda 6 diesel, which I got second hand. The car had a number of problems which have been sorted out but a new problem has appeared.
 
-The problem: Power loss when the car is warmed up.
+##The problem: Power loss when the car is warmed up.
 
 Normally, any car has the same amount of power when on demand if the engine is healthy.
 However, my car started to lose power after driving for around 10 minutes, it still runs but the throttle response is much slower and the car seems to be saving power.
-
 This is annoying, but most of all, it shows that something is clearly wrong.
 After consulting with a mechanic, he mentioned that the engine could be overheating.
 
@@ -34,20 +32,25 @@ After warming up the car for about 5 minutes, I started to record the data which
 
 
 During the day, the maximum temperature was 25 degrees Celsius, which is something we should consider when measuring a potential engine overheat situation.
+<img src="temperature%20130822" >
+
+Familiarizing with the data.
 
 
-
-
-Code below:
-
-
+```{r}
+lines_per_second <- nrow(Mazdata_13_08_2022) / max(Mazdata_13_08_2022$`time(s)`)
+  
+  #Let's see for how long the car has been collecting data. We can use the "last" function from the Dplyr package on the "time" column to find that out.
+  #We also convert it to character so the value is visible.
+  
+  total_time <- last(Mazdata_13_08_2022$time) %>% as.character(total_time)
+```
 
 Total sample time is 34 minutes and 51 seconds, the computer created 37 lines of data per second, for a total of 77785 lines.
 
 
 
-Let's visualize 
-
+##Let's visualize 
 
 I have no official numbers on temperature limits set by the car's computer, but there is an error code which tells us that a certain limit has been reached.
 
@@ -61,35 +64,10 @@ To put this into a more human equivalent, let's think of fever.
 The car can be seen in a similar manner:
  - Normal running temperature is between 80 to 100 degrees, this depends on each car.
  - The car restricts power because of high temperature, but not overheat.
-{Graph Image goes here}
-[ambient temperature goes here.]
 
+Using *ggplot2* and *grid* packages, I have put together the parameters which I think are relevant.
 
-I assume the car measures high temperature when it reaches 100 degrees, so it gives us engine code ()
-
-We can see there is a peak at 103 degrees, and this would match the behavior of the car, limiting the power.
-
-
-##Are coolant temperature and oil temperature related?
-
-I would like to see if there is a correlation between engine coolant and engine oil temperatures.
-Logic tells us there should be a certain correlation, as both run through the engine, but I would like to find how strongly connected they are.
-
-``` r 
-#correlation coolant vs oil temp
-oil_temp_vs_coolant <- data.frame(Mazdata_13_08_2022$`ECT1(°C)`,
-                          Mazdata_13_08_2022$`EOT(°C)`)
-#delete empty lines
-oil_temp_vs_coolant <- oil_temp_vs_coolant[-(1:5),]
-
-#find out correlation index.
-cor(oil_temp_vs_coolant)
-cor.test(oil_temp_vs_coolant$Mazdata_13_08_2022..EOT..C.., oil_temp_vs_coolant$Mazdata_13_08_2022..ECT1..C..)
-
-```
-
-A correlation index of 0.676188 tells us that there is some positive correlation, however this is not a direct correlation.
-In any case, this is something to consider if I want to make some changes.
+<img src="Speed%20vs%20temp%20before.png" >
 
 
 ##My first insights
@@ -113,6 +91,34 @@ The car has been behaving like this for some time, and I need to find the actors
  -Radiator is contaminated, if the coolant has tap water instead of destilled water, corrosion is created and the tubes can get clogged.
  -Radiator fans are not working.
 
+
+We can see there is a peak at 103 degrees, and this would match the behavior of the car, limiting the power.
+
+
+##Are coolant temperature and oil temperature related?
+
+I would like to see if there is a correlation between engine coolant and engine oil temperatures.
+Logic tells us there should be a certain correlation, as both run through the engine, but I would like to find how strongly connected they are.
+
+```{r}
+#correlation coolant vs oil temp
+oil_temp_vs_coolant <- data.frame(Mazdata_13_08_2022$`ECT1(°C)`,
+                          Mazdata_13_08_2022$`EOT(°C)`)
+#delete empty lines
+oil_temp_vs_coolant <- oil_temp_vs_coolant[-(1:5),]
+
+#find out correlation index.
+cor(oil_temp_vs_coolant)
+cor.test(oil_temp_vs_coolant$Mazdata_13_08_2022..EOT..C.., oil_temp_vs_coolant$Mazdata_13_08_2022..ECT1..C..)
+
+```
+
+A correlation index of 0.676188 tells us that there is some positive correlation, however this is not a direct correlation.
+In any case, this is something to consider if I want to make some changes.
+
+
+
+
 ###Disregarded potential problems 
  -Oil sensor: the measurements given are smooth and there are no strange peaks.
  -Radiator fan: Radiator fans work correctly, they switch on and off when the car is at idle.
@@ -127,6 +133,14 @@ When working on a car, my approach is to start with the easiest and cheapest pot
  -Last, refill coolant and oil type according to the owner's manual.
  
 ##Outcome and analysis.
+
+For this test, the car has been running for almost 30 minutes and I did the same route as the previous time.
+We need to consider that this day was 8 degrees Celsius warmer than the previous time.
+
+<img src="temperature%20180822.png" >
+
+<img src="After%20temp%20vs%20speed.png" >
+
 
  -The coolant on the engine was the wrong type (red instead of green), so after flushing the system, the correct one was added, mixed with distilled water.
  -Oil was changed to specific Mazda oil and filter.
@@ -148,4 +162,5 @@ Graph goes here:
   -Keeps the engine temperature few degrees lower.
 
 I am satisfied with the results.
+
 
