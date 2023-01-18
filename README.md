@@ -163,9 +163,10 @@ After running the car for a few weeks and a 5 day road trip, the car behaves as 
 
 ## Conclusion
 
- -Oil change interval and oil density according to specifications are crucial, especially on modern engines. 
+
+Oil change interval and oil density according to specifications are crucial, especially on modern engines.  
+Flushing the coolant and radiator helps in two ways:
  
- -Flushing the coolant and radiator helps in two ways:
   -The minerals and detergents protect the engine block from corrosion.
   -Keeps the engine temperature few degrees lower.
 
