@@ -4,22 +4,22 @@ library(lubridate)
 library(ggplot2)
 library(data.table)
 #Import all csv files using vroom:
-  jul_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202107-divvy-tripdata-2.csv")
-  aug_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202108-divvy-tripdata-2.csv")
-  sep_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202109-divvy-tripdata-2.csv")
+  jul_2021 <- vroom("C:/Users/user/Documents/R/case study/202107-divvy-tripdata-2.csv")
+  aug_2021 <- vroom("C:/Users/user/Documents/R/case study/202108-divvy-tripdata-2.csv")
+  sep_2021 <- vroom("C:/Users/user/Documents/R/case study/202109-divvy-tripdata-2.csv")
 
 
-  oct_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202110-divvy-tripdata-2.csv")
-  nov_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202111-divvy-tripdata-2.csv")
-  dec_2021 <- vroom("C:/Users/agnen/Documents/TestR/case study/202112-divvy-tripdata-2.csv")
+  oct_2021 <- vroom("C:/Users/user/Documents/R/case study/202110-divvy-tripdata-2.csv")
+  nov_2021 <- vroom("C:/Users/user/Documents/R/case study/202111-divvy-tripdata-2.csv")
+  dec_2021 <- vroom("C:/Users/user/Documents/R/case study/202112-divvy-tripdata-2.csv")
 
-  jan_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202201-divvy-tripdata-2.csv")
-  feb_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202202-divvy-tripdata-2.csv")
-  mar_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202203-divvy-tripdata-2.csv")
+  jan_2022 <- vroom("C:/Users/user/Documents/R/case study/202201-divvy-tripdata-2.csv")
+  feb_2022 <- vroom("C:/Users/user/Documents/R/case study/202202-divvy-tripdata-2.csv")
+  mar_2022 <- vroom("C:/Users/user/Documents/R/case study/202203-divvy-tripdata-2.csv")
 
-  apr_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202204-divvy-tripdata-2.csv")
-  may_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202205-divvy-tripdata-2.csv")
-  jun_2022 <- vroom("C:/Users/agnen/Documents/TestR/case study/202206-divvy-tripdata-2.csv")
+  apr_2022 <- vroom("C:/Users/user/Documents/R/case study/202204-divvy-tripdata-2.csv")
+  may_2022 <- vroom("C:/Users/user/Documents/R/case study/202205-divvy-tripdata-2.csv")
+  jun_2022 <- vroom("C:/Users/user/Documents/R/case study/202206-divvy-tripdata-2.csv")
 
 #binding quarters of data with ride lengths and day.  
 Q3_2021 <- rbind(jul_2021, aug_2021, sep_2021)
@@ -97,7 +97,7 @@ rm(Q1_2022, Q2_2022, Q3_2021, Q4_2021)
 #Clean up and adding data to prepare for analysis.
 
 #Export all data to keep as backup.
-write.csv(all_trips,"C:/Users/agnen/Documents/TestR/case study/all_trips.csv", row.names=FALSE)
+write.csv(all_trips,"C:/Users/user/Documents/R/case study/all_trips.csv", row.names=FALSE)
 
 colnames(all_trips)  #List of column names
 nrow(all_trips)  #How many rows are in data frame?
@@ -147,7 +147,7 @@ all_trips$ride_length <- as.character(as.numeric(all_trips$ride_length))
 #Remove bad data.
 # The dataframe includes a few hundred entries when bikes were taken out of docks and checked for quality by Divvy or ride_length was negative
 
-write.csv(all_trips,"C:/Users/agnen/Documents/TestR/case study/all_trips_modified.csv", row.names=FALSE)
+write.csv(all_trips,"C:/Users/user/Documents/R/case study/all_trips_modified.csv", row.names=FALSE)
 
 all_trips <- filter(all_trips, all_trips$ride_length >=0)#this worked
 
@@ -211,7 +211,7 @@ ggplot(data=all_trips, aes(x=day_of_week, y=average_duration))
 # Create a csv file
 
 counts <- aggregate(all_trips$ride_length ~ all_trips$usertype + all_trips$day_of_week, FUN = mean)
-write.csv(counts, file = '~/TestR/case study/avg_ride_length.csv')
+write.csv(counts, file = '~/R/case study/avg_ride_length.csv')
 
 
 #________________________________________________________________
