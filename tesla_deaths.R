@@ -1,3 +1,6 @@
+Work in progress
+
+
 #Let's analyze data from an interesting set obtained from Kaggle.
 
 #I want to find out about the deaths related to Tesla's autopilot and try to get to some conclusion.
@@ -5,7 +8,7 @@
 #Importing the dataset and making some changes to the columns.
 
 library(readr)
-Tesla_Deaths <- read_csv("~/TestR/case study/heating NY/Tesla Deaths - Deaths.csv", 
+Tesla_Deaths <- read_csv("~/R/case study/Tesla Deaths - Deaths.csv", 
                            +     col_types = cols(Deaths = col_number(), 
                                                            `Tesla driver` = col_number(), `Tesla occupant` = col_number(), 
                                                           `Other vehicle` = col_number(), `Cyclists/ Peds` = col_number(), 
