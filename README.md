@@ -70,7 +70,7 @@ The car can be seen in a similar manner:
 
 Using `ggplot2` and `grid` packages, I have put together the parameters which I think are relevant.
 
-<img src="Speed%20vs%20temp%20before.png" >
+<img src="Images/Speed%20vs%20temp%20before.png" >
 
 ## First insights
 
@@ -147,7 +147,7 @@ When working on a car, my approach is to start with the easiest and cheapest pot
 
 For this test, the car has been running for almost 30 minutes and I did the same route as the previous time.
 We need to consider that this day was 8 degrees Celsius warmer than the previous time.
-<img src="temperature%20180822.png" >
+<img src="Images/temperature%20180822.png" >
 
  -The coolant on the engine was the wrong type (red instead of green), so after flushing the system, the correct one was added, mixed with distilled water.
  
@@ -155,7 +155,7 @@ We need to consider that this day was 8 degrees Celsius warmer than the previous
  
 After performing an initial test run to gather data, I saved it and run through the same process to visualize the status of the car.
 
-<img src="After%20temp%20vs%20speed.png" >
+<img src="Images/After%20temp%20vs%20speed.png" >
 
 After running the car for a few weeks and a 5 day road trip, the car behaves as it should, no power loss and no signs of high temperature.
 
