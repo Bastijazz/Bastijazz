@@ -164,12 +164,13 @@ After running the car for a few weeks and a 5 day road trip, the car behaves as 
 ## Conclusion
 
 
+The changes made to the lubricant and coolant proved to be effective at keeping optimal temperature on the engine, specially after testing it during a warmer day.
 Oil change interval and oil density according to specifications are crucial, especially on modern engines.  
 Flushing the coolant and radiator helps in two ways:
  
   -The minerals and detergents protect the engine block from corrosion.
   -Keeps the engine temperature few degrees lower.
 
-I am satisfied with the results.
+I am satisfied with the results, as the performance is now steady and according to the data, the engine keeps its temperature at a normal level.
 
 
